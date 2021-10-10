@@ -28,6 +28,7 @@ const NavItem = styled.li<{ menu?: any }>`
     ease-in-out
     hover:text-gray-700
   `};
+  
   ${({ menu }) =>
     menu &&
     css`
