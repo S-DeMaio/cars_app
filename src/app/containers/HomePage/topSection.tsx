@@ -5,7 +5,7 @@ import tw from "twin.macro";
 import MclarenCarImg from "../../../assets/images/mclaren-orange-big.png";
 import BlobImg from "../../../assets/images/blob.svg";
 import { SCREENS } from "../../components/responsive";
-// import { Button } from "../../components/button";
+import { Button } from "../../components/button";
 
 const TopSectionContainer = styled.div`
   min-height: 400px;
@@ -77,11 +77,13 @@ const BlobContainer = styled.div`
   top: -9em;
   z-index: -1;
   transform: rotate(-30deg);
+
   img {
     width: 100%;
     height: auto;
     max-height: max-content;
   }
+
   @media (min-width: ${SCREENS.sm}) {
     width: 40em;
     max-height: 10em;
@@ -89,6 +91,7 @@ const BlobContainer = styled.div`
     top: -16em;
     transform: rotate(-25deg);
   }
+
   @media (min-width: ${SCREENS.lg}) {
     width: 50em;
     max-height: 30em;
@@ -96,6 +99,7 @@ const BlobContainer = styled.div`
     top: -15em;
     transform: rotate(-30deg);
   }
+
   @media (min-width: ${SCREENS.xl}) {
     width: 70em;
     max-height: 30em;
@@ -151,10 +155,10 @@ export function TopSection() {
           at the best price for you and get the best quality cars for as long as
           you like
         </Description>
-        {/* <ButtonsContainer>
+        <ButtonsContainer>
           <Button text="Book Your Ride" />
           <Button theme="filled" text="Sell Your Car" />
-        </ButtonsContainer> */}
+        </ButtonsContainer>
       </LeftContainer>
       <RightContainer>
         <BlobContainer>
