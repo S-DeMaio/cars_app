@@ -40,6 +40,7 @@ const OutlinedButton = styled(BaseButton)`
         hover:border-red-500
     `};
 `;
+
 const FilledButton = styled(BaseButton)`
     ${tw`
         border-red-500

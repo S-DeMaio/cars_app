@@ -139,6 +139,6 @@ export function BookCard() {
             {isReturnCalendarOpen && (<DateCalendar offset value={returnDate} onChange={setReturnDate as any}/>)}
         </ItemContainer>
         <Marginer direction="horizontal" margin="2em"/>
-        <Button text="book Your Ride" />
+        <Button text="Book Your Ride" />
     </CardContainer>
 }
