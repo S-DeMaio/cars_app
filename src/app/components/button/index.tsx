@@ -47,7 +47,7 @@ const FilledButton = styled(BaseButton)`
         bg-transparent
         hover:bg-red-500
         hover:text-white
-         hover:border-transparent
+        hover:border-transparent
     `};
 `;
 

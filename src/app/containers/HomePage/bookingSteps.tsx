@@ -19,10 +19,10 @@ const Container = styled.div`
 
 const Title = styled.h2`
     ${tw`
-        text-xl
+        text-3xl
         lg: text-4xl
         text-black
-        font-extrabold
+        font-bold
     `};
 `;
 
@@ -40,11 +40,11 @@ const StepContainer = styled.div`
     ${tw`
         flex
         flex-col
-        w-16
         md:w-96
         items-center
         transition-colors
         hover:text-red-500
+        m-3
     `};
 `;
 
