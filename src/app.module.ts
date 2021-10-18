@@ -4,18 +4,18 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { GraphQLModule } from '@nestjs/graphql';
-// import { ComponentsModule } from './components/components.module';
+import { ComponentsModule } from './components/components.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     DatabaseModule,
     GraphQLModule.forRoot({
-      playground: (process.env.NODE_ENV === 'development' && true) || false,
-      debug: (process.env.NODE_ENV === 'development' && true) || false,
+      playground: true,
+      debug: true,
       autoSchemaFile: true,
     }),
-    // ComponentsModule,
+    ComponentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
