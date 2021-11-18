@@ -11,7 +11,11 @@ import carService from '../../services/carService';
 import { GetCars_cars } from '../../services/carService/__generated__/GetCars';
 import { setTopCars } from './slice';
 import { Dispatch } from 'redux';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { createSelector } from 'reselect';
+import { makeSelectTopCars } from "./selectors";
+import { setTimeout } from 'timers';
+// import MoonLoader from "react-spinners/MoonLoader";
 
 
 const TopCarsContainer = styled.div`
@@ -50,27 +54,59 @@ const CarsContainer = styled.div`
     `};
 `;
 
+const EmptyCars = styled.div`
+    ${tw`
+        w-full
+        flex
+        justify-center
+        items-center
+        text-sm
+        text-gray-500
+    `};
+`;
+
+const LoadingContainer = styled.div`
+    ${tw`
+        w-full
+        mt-9
+        flex
+        justify-center
+        items-center
+        text-base
+        text-black
+    `};
+`;
+
 const actionDispatch = (dispatch: Dispatch) => ({
     setTopCars: (cars: GetCars_cars[]) => dispatch(setTopCars(cars)),
 });
 
+const stateSelector = createSelector(makeSelectTopCars, (topCars) => ({
+    topCars,
+}));
+
+const wait = (timeout: number) => new Promise((rs) => setTimeout(rs, timeout));
 
 export function TopCars() {
     const [current, setCurrent] = useState(0);
+    const [isLoading, setLoading] = useState(false);
 
     const isMobile = useMediaQuery({ maxWidth: SCREENS.sm });
+
+    const { topCars } = useSelector(stateSelector);
 
     const { setTopCars } = actionDispatch(useDispatch());
 
     const fetchTopCars = async () => {
+        setLoading(true);
         const cars = await carService.getCars().catch((err) => {
             console.log("Error ", err);
         });
 
         console.log("Cars ", cars);
-        if (cars)
-            setTopCars(cars);
-    }
+        if (cars) setTopCars(cars);
+        setLoading(false);
+    };
 
     const testCar: ICar = {
         name: "Audi S3 Car", 
@@ -95,17 +131,20 @@ export function TopCars() {
         fetchTopCars();
     }, []);
 
-    const cars = [ 
-        <Car {...testCar}/>, 
-        <Car {...testCar2}/>, 
-        <Car {...testCar}/>, 
-        <Car {...testCar2}/>, 
-        <Car {...testCar}/>, ];
+    const isEmptyTopCars = !topCars || topCars.length === 0;
+
+    const cars = !isEmptyTopCars && topCars.map((car) => <Car {...car} thumbnailSrc={car.thumbnailUrl}/>) || [];
     
     const numberOfDots = isMobile ? cars.length : Math.ceil(cars.length / 3);
+
     
     return <TopCarsContainer>
         <Title>Explore Our Top Deals</Title>
+        {!isEmptyTopCars && (<LoadingContainer>
+            {/* <MoonLoader loading size={20} /> */}
+        </LoadingContainer>)}
+        {isEmptyTopCars && !isLoading && <EmptyCars>No Cars To Show!</EmptyCars>}
+        {!isEmptyTopCars && !isLoading && (
         <CarsContainer>
             <Carousel 
             value={current} 
@@ -137,13 +176,14 @@ export function TopCars() {
                           resolve: slidesToShowPlugin, 
                           options: {
                               numberOfSlides: 2
-                          }
+                          },
                       }, 
-                  ]  
-                }
+                  ],  
+                },
             }}
             />
             <Dots value={current} onChange={setCurrent} number={numberOfDots} />
         </CarsContainer>
+        )}
     </TopCarsContainer>
 }
